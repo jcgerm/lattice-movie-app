@@ -6,5 +6,12 @@ export default {
         let data = await response.data;
 
         return data;
-    }
-}
+    },
+
+    searchForMovie: async movieTitle => {
+        let response = await axios.get(`/api/movies/search?movieTitle=${movieTitle}`);
+        let data = await response.data;
+
+        return data;
+    },
+};
