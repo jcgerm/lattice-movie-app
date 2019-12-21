@@ -14,4 +14,11 @@ export default {
 
         return data;
     },
+
+    getMovieById: async movieId => {
+        let response = await axios.get(`/api/movies/movie?movieId=${movieId}`);
+        let data = await response.data;
+
+        return data;
+    },
 };

@@ -1,12 +1,15 @@
 import React from 'react';
 
 class Movie extends React.PureComponent {
-    render() {
-        const { movie } = this.props;
+    handleClick = event => {
+        event.preventDefault();
+        this.props.onMovieClick(this.props.movie.id);
+    };
 
+    render() {
         return (
             <div>
-                <h1>{movie.title}</h1>
+                <h1 onClick={this.handleClick}>{this.props.movie.title}</h1>
             </div>
         );
     }

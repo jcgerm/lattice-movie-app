@@ -9,8 +9,6 @@ class SearchBar extends React.PureComponent {
 
     handleSubmit = event => {
         event.preventDefault();
-        console.log(this.state.movieTitle);
-
         this.props.doSearch(this.state.movieTitle);
     };
 
