@@ -12,4 +12,14 @@ router.get('/popular', (req, res) => {
     });
 });
 
+router.get('/search', (req, res) => {
+    let { movieTitle } = req.query;
+
+    axios
+        .get(`${MOVIE_DB_URL}/search/movie?query=${movieTitle}&api_key=${API_KEY}`)
+        .then(movieRes => {
+            res.send(movieRes.data);
+        });
+});
+
 export default router;
