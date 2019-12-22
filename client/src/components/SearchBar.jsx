@@ -10,20 +10,28 @@ class SearchBar extends React.PureComponent {
     handleSubmit = event => {
         event.preventDefault();
         this.props.doSearch(this.state.movieTitle);
+        this.setState({ movieTitle: '' });
     };
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <input
-                    type="text"
-                    value={this.state.movieTitle}
-                    onChange={this.handleChange}
-                    placeholder="Search for a movie title..."
-                    required
-                />
-                <button>Search</button>
-            </form>
+            <div className="searchBar">
+                <div className="popular" onClick={this.props.showPopularMovies}>
+                    Return to Popular Movies
+                </div>
+                <div className="searchBox">
+                    <form onSubmit={this.handleSubmit}>
+                        <input
+                            type="text"
+                            value={this.state.movieTitle}
+                            onChange={this.handleChange}
+                            placeholder="Search for a movie title..."
+                            required
+                        />
+                        <button>Search</button>
+                    </form>
+                </div>
+            </div>
         );
     }
 }

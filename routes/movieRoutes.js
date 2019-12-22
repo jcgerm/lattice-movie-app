@@ -6,6 +6,16 @@ const API_KEY = 'dfe318abee989b9d18f2421d7f8bbb19';
 
 const router = express.Router();
 
+const validateField = field => {
+    if (field) {
+        return field;
+    }
+
+    if (Array.isArray(field)) return [];
+
+    return 'N/A';
+};
+
 router.get('/popular', (req, res) => {
     axios.get(`${MOVIE_DB_URL}/movie/popular?api_key=${API_KEY}`).then(movieRes => {
         res.send(
@@ -25,7 +35,14 @@ router.get('/search', (req, res) => {
     axios
         .get(`${MOVIE_DB_URL}/search/movie?query=${movieTitle}&api_key=${API_KEY}`)
         .then(movieRes => {
-            res.send(movieRes.data);
+            res.send(
+                movieRes.data.results.map(movie => {
+                    return {
+                        id: movie.id,
+                        title: movie.original_title,
+                    };
+                }),
+            );
         });
 });
 
@@ -44,18 +61,22 @@ router.get('/movie', (req, res) => {
 
                 res.send({
                     id: movie.id,
-                    title: movie.original_title,
-                    overview: movie.overview,
-                    release_date: movie.release_date,
+                    title: validateField(movie.original_title),
+                    overview: validateField(movie.overview),
+                    release_date: validateField(movie.release_date),
                     poster_path: movie.poster_path,
-                    cast: cast.cast.map(actor => {
-                        return {
-                            cast_id: actor.cast_id,
-                            character: actor.character,
-                            name: actor.name,
-                            profile_path: actor.profile_path,
-                        };
-                    }),
+                    runtime: validateField(movie.runtime),
+                    genres: validateField(movie.genres),
+                    cast: validateField(
+                        cast.cast.map(actor => {
+                            return {
+                                cast_id: actor.cast_id,
+                                character: validateField(actor.character),
+                                name: validateField(actor.name),
+                                profile_path: actor.profile_path,
+                            };
+                        }),
+                    ),
                 });
             }),
         );

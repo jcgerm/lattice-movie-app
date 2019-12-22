@@ -21,15 +21,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-form {
-    border: thin solid #ddd;
-    background-color: #63709c;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: left;
-}
-
 button {
     margin-left: 0.5rem;
 }
@@ -38,8 +29,48 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+.searchBar {
+    border: thin solid #ddd;
+    background-color: #63709c;
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+    overflow: hidden;
+}
+
+.searchBar .searchBox {
+    float: right;
+}
+
+.searchBar .popular {
+    cursor: pointer;
+    float: left;
+    color: rgb(255, 255, 255);
+}
+
+.searchBar .popular:hover {
+    color: rgb(0, 0, 0);
+}
+
 .movieList {
     text-align: center;
+}
+
+.movie {
+    cursor: pointer;
+}
+
+.movie .h1 {
+    display: inline-block;
+}
+
+.movie:hover {
+    color: rgb(139, 30, 49);
+}
+
+.details {
+    margin-left: 2rem;
+    margin-right: 2rem;
 }
 
 .details .title {
@@ -48,7 +79,14 @@ code {
 
 .details .poster {
     text-align: center;
+    margin-bottom: 2rem;
 }
+
+.details .poster img {
+    width: 20em;
+    height: 30em;
+}
+
 .details .castTable {
     margin: 0 auto;
 }
