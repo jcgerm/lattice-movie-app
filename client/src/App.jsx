@@ -15,25 +15,30 @@ class App extends Component {
         this.showPopularMovies();
     }
 
+    // Gets the list of popular movie titles and ids
     showPopularMovies = () => {
-        movieService
-            .getListOfPopularMovies()
-            .then(res => this.setState({ movies: res }))
-            .catch(err => console.log(err));
+        movieService.getListOfPopularMovies().then(res => this.setState({ movies: res }));
     };
 
+    // Searches for a movie. Callback for the search box
     doSearch = movieTitle => {
         movieService
             .searchForMovie(movieTitle)
-            .then(res => this.setState({ movies: res }))
-            .catch(err => console.log(err));
+            .then(res => {
+                if (res.length === 1) {
+                    this.showMovieDetails(res[0].id);
+                } else {
+                    return res;
+                }
+            })
+            .then(res => {
+                this.setState({ movies: res });
+            });
     };
 
+    // Gets movie details for the details page
     showMovieDetails = movieId => {
-        movieService
-            .getMovieById(movieId)
-            .then(res => this.setState({ movies: [res] }))
-            .catch(err => console.log(err));
+        movieService.getMovieById(movieId).then(res => this.setState({ movies: [res] }));
     };
 
     render() {
@@ -41,6 +46,7 @@ class App extends Component {
         let contents;
 
         if (movies) {
+            // If we have only one movie in the list, let's show the details page
             if (movies.length === 1) {
                 contents = <MovieDetails movie={this.state.movies[0]} />;
             } else {
