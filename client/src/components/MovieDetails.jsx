@@ -17,13 +17,23 @@ class MovieDetails extends React.PureComponent {
     render() {
         const { movie } = this.props;
 
+        let poster = movie.poster_path ? (
+            <img src={`${POSTER_URL}${movie.poster_path}`} alt={movie.title} />
+        ) : (
+            ''
+        );
+
         return (
             <div className="details">
                 <div className="title">
                     <h1>{movie.title}</h1>
                 </div>
-                <div className="poster">
-                    <img src={`${POSTER_URL}${movie.poster_path}`} alt="" />
+                <div className="poster">{poster}</div>
+                <div>
+                    <b>Runtime:</b> {movie.runtime} minutes
+                </div>
+                <div>
+                    <b>Genre:</b> {movie.genres.map(genre => genre.name).join(', ')}
                 </div>
                 <div>
                     <b>Release Date:</b> {dateDisplay(movie.release_date)}
@@ -31,19 +41,28 @@ class MovieDetails extends React.PureComponent {
                 <div>
                     <b>Synopsis:</b> {movie.overview}
                 </div>
-                <div class="castTable">
+                <div className="castTable">
                     <h2>Cast</h2>
                     <table className="castTable">
-                        {movie.cast.map(actor => (
-                            <tr>
-                                <td className="profilePhoto">
-                                    <img src={`${POSTER_URL}${actor.profile_path}`} alt="" />
-                                </td>
-                                <td>{actor.name}</td>
-                                <td>as</td>
-                                <td>{actor.character}</td>
-                            </tr>
-                        ))}
+                        <tbody>
+                            {movie.cast.map(actor => (
+                                <tr key={actor.cast_id}>
+                                    <td className="profilePhoto">
+                                        {actor.profile_path !== null ? (
+                                            <img
+                                                src={`${POSTER_URL}${actor.profile_path}`}
+                                                alt={actor.name}
+                                            />
+                                        ) : (
+                                            <div></div>
+                                        )}
+                                    </td>
+                                    <td>{actor.name}</td>
+                                    <td>as</td>
+                                    <td>{actor.character}</td>
+                                </tr>
+                            ))}
+                        </tbody>
                     </table>
                 </div>
             </div>

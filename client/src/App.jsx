@@ -7,21 +7,22 @@ import SearchBar from './components/SearchBar';
 
 class App extends Component {
     state = {
-        movies: [],
-        movie: null,
+        movies: null,
     };
 
     // Load the list of popular movies when the page is loaded
     componentDidMount() {
+        this.showPopularMovies();
+    }
+
+    showPopularMovies = () => {
         movieService
             .getListOfPopularMovies()
             .then(res => this.setState({ movies: res }))
             .catch(err => console.log(err));
-    }
+    };
 
     doSearch = movieTitle => {
-        this.setState({ movie: null });
-
         movieService
             .searchForMovie(movieTitle)
             .then(res => this.setState({ movies: res }))
@@ -31,19 +32,27 @@ class App extends Component {
     showMovieDetails = movieId => {
         movieService
             .getMovieById(movieId)
-            .then(res => this.setState({ movie: res }))
+            .then(res => this.setState({ movies: [res] }))
             .catch(err => console.log(err));
     };
 
     render() {
+        let movies = this.state.movies;
+        let contents;
+
+        if (movies) {
+            if (movies.length === 1) {
+                contents = <MovieDetails movie={this.state.movies[0]} />;
+            } else {
+                contents = (
+                    <MovieList movies={this.state.movies} onMovieClick={this.showMovieDetails} />
+                );
+            }
+        }
         return (
             <div className="App">
-                <SearchBar doSearch={this.doSearch} />
-                {this.state.movie === null ? (
-                    <MovieList movies={this.state.movies} onMovieClick={this.showMovieDetails} />
-                ) : (
-                    <MovieDetails movie={this.state.movie} />
-                )}
+                <SearchBar doSearch={this.doSearch} showPopularMovies={this.showPopularMovies} />
+                {contents}
             </div>
         );
     }
