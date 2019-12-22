@@ -16,6 +16,8 @@ const validateField = field => {
     return 'N/A';
 };
 
+// Retrieve all of the popular movies from the Movie DB API and
+// return the id and title
 router.get('/popular', (req, res) => {
     axios
         .get(`${MOVIE_DB_URL}/movie/popular?api_key=${API_KEY}`)
@@ -34,6 +36,7 @@ router.get('/popular', (req, res) => {
         });
 });
 
+// Search for a movie and return the id and title
 router.get('/search', (req, res) => {
     let { movieTitle } = req.query;
 
@@ -54,6 +57,7 @@ router.get('/search', (req, res) => {
         });
 });
 
+// Get a movie by id and return movie metadata
 router.get('/movie', (req, res) => {
     let { movieId } = req.query;
 
