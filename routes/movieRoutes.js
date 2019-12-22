@@ -17,16 +17,21 @@ const validateField = field => {
 };
 
 router.get('/popular', (req, res) => {
-    axios.get(`${MOVIE_DB_URL}/movie/popular?api_key=${API_KEY}`).then(movieRes => {
-        res.send(
-            movieRes.data.results.map(movie => {
-                return {
-                    id: movie.id,
-                    title: movie.original_title,
-                };
-            }),
-        );
-    });
+    axios
+        .get(`${MOVIE_DB_URL}/movie/popular?api_key=${API_KEY}`)
+        .then(movieRes => {
+            res.send(
+                movieRes.data.results.map(movie => {
+                    return {
+                        id: movie.id,
+                        title: movie.original_title,
+                    };
+                }),
+            );
+        })
+        .catch(error => {
+            console.log(error);
+        });
 });
 
 router.get('/search', (req, res) => {
@@ -43,6 +48,9 @@ router.get('/search', (req, res) => {
                     };
                 }),
             );
+        })
+        .catch(error => {
+            console.log(error);
         });
 });
 
@@ -79,6 +87,9 @@ router.get('/movie', (req, res) => {
                     ),
                 });
             }),
-        );
+        )
+        .catch(error => {
+            console.log(error);
+        });
 });
 export default router;
